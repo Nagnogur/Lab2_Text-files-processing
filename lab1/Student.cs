@@ -22,7 +22,7 @@ namespace lab1
                 sum += grades[i];
             }
             Budget = budget;
-            AvarageGrade = sum / 5;
+            AvarageGrade = sum / 5.0;
         }
     }
 }

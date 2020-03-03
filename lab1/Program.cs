@@ -15,31 +15,56 @@ namespace lab1
             var filePaths = Directory.GetFiles(@path, "*.csv");
 
             List<Student> rating = new List<Student>();
-            int l = 0;
+            int numberBudget = 0;
             foreach (string s in filePaths)
             {
                 StreamReader reader = new StreamReader(File.OpenRead(@s));
                 int n = Convert.ToInt32(reader.ReadLine());
-                l += n;
                 for (int i = 0; i < n; i++)
                 {
                     string line = reader.ReadLine();
                     string[] values = line.Split(',');
                     int[] grades = new int[5];
+                    double avarage = 0;
                     for (int j = 1; j < 6; j++)
                     {
                         grades[j - 1] = Convert.ToInt32(values[j]);
+                        avarage += grades[j - 1];
                     }
                     bool budget;
-                    budget = values[6] == "FALSE" ? true : false; 
+
+                    if (values[6] == "FALSE")
+                    {
+                        budget = true;
+                        numberBudget++;
+                    }
+                    else
+                    {
+                        budget = false;
+                    }
+
                     rating.Add(new Student(values[0], grades , budget));
                 }
             }
+            rating.Sort((x, y) => y.AvarageGrade.CompareTo(x.AvarageGrade));
             Student[] array = rating.ToArray();
-            for (int i = 0; i < l; i++)
+            int num = 0, ind = 0;
+            double minBudget = 0;
+            numberBudget = (int)(numberBudget * 0.4);
+            while (num <= numberBudget)
             {
-                Console.WriteLine(array[i].LastName);
+                if (num == numberBudget)
+                {
+                    minBudget = array[ind].AvarageGrade;
+                }
+                if (array[ind].Budget)
+                {
+                    Console.WriteLine("{0} {1}", array[ind].LastName, Math.Round(array[ind].AvarageGrade, 3));
+                    num++;
+                }
+                ind++;
             }
+            Console.WriteLine(Math.Round(minBudget, 3));
             Console.ReadKey();
         }
     }
