@@ -51,6 +51,7 @@ namespace lab1
             int num = 0, ind = 0;
             double minBudget = 0;
             numberBudget = (int)(numberBudget * 0.4);
+            String[] table = new string[numberBudget + 1];
             while (num <= numberBudget)
             {
                 if (num == numberBudget)
@@ -59,12 +60,13 @@ namespace lab1
                 }
                 if (array[ind].Budget)
                 {
-                    Console.WriteLine("{0} {1}", array[ind].LastName, Math.Round(array[ind].AvarageGrade, 3));
+                    table[num] = Convert.ToString(array[ind].LastName) + ";" + Convert.ToString(Math.Round(array[ind].AvarageGrade, 3));
                     num++;
                 }
                 ind++;
             }
             Console.WriteLine(Math.Round(minBudget, 3));
+            File.WriteAllLines(@"rating.csv", table);
             Console.ReadKey();
         }
     }
