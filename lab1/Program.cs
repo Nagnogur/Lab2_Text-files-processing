@@ -16,6 +16,7 @@ namespace lab1
 
             List<Student> rating = new List<Student>();
             int numberBudget = 0;
+
             foreach (string s in filePaths)
             {
                 StreamReader reader = new StreamReader(File.OpenRead(@s));
@@ -46,8 +47,9 @@ namespace lab1
                     rating.Add(new Student(values[0], grades , budget));
                 }
             }
+
             rating.Sort((x, y) => y.AvarageGrade.CompareTo(x.AvarageGrade));
-            Student[] array = rating.ToArray();
+            Student[] student = rating.ToArray();
             int num = 0, ind = 0;
             double minBudget = 0;
             numberBudget = (int)(numberBudget * 0.4);
@@ -56,17 +58,17 @@ namespace lab1
             {
                 if (num == numberBudget)
                 {
-                    minBudget = array[ind].AvarageGrade;
+                    minBudget = student[ind].AvarageGrade;
                 }
-                if (array[ind].Budget)
+                if (student[ind].Budget)
                 {
-                    table[num] = Convert.ToString(array[ind].LastName) + ";" + Convert.ToString(Math.Round(array[ind].AvarageGrade, 3));
+                    table[num] = Convert.ToString(student[ind].LastName) + ";" + Convert.ToString(Math.Round(student[ind].AvarageGrade, 3));
                     num++;
                 }
                 ind++;
             }
             Console.WriteLine(Math.Round(minBudget, 3));
-            File.WriteAllLines(@"rating.csv", table);
+            File.WriteAllLines(@"rating.csv", table, Encoding.Default);
             Console.ReadKey();
         }
     }
